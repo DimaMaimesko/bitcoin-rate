@@ -15,19 +15,26 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
 
-
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
             'enableCookieValidation' => true,
 
             'enableCsrfValidation' => true,
 
             'cookieValidationKey' => 'xxxxxxx',
         ],
+
+
+
+
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
+            'enableSession' => false,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -54,10 +61,14 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'POST user/create/<email:\w+>/<password:\w+>' => 'user/create',
+                'POST user/login/<email:\w+>/<password:\w+>' => 'user/login',
+                'GET btcRate/<email:\w+>/<password:\w+>' => 'bitcoin/get-rate',
             ],
         ],
 
     ],
+
     'params' => $params,
 ];
 
@@ -66,15 +77,13 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
-        // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' => ['*'],
     ];
-
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
         // uncomment the following to add your IP if you are not connecting from localhost.
-        //'allowedIPs' => ['127.0.0.1', '::1'],
+        'allowedIPs' =>['*'],
     ];
 }
 
