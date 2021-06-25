@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\services\BitcoinService;
 use app\services\StorageService;
 use yii\web\Controller;
 
@@ -27,6 +28,7 @@ class UserController extends Controller
         if ($action->id == 'login') {
             $this->enableCsrfValidation = false;
         }
+
         return parent::beforeAction($action);
     }
 

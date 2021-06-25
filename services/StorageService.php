@@ -18,7 +18,7 @@ class StorageService
     public function createUser($email, $password)
     {
 
-        $this->jsonStorage->insert(['email' => $email, 'password' => $password]);
+
         if ($this->jsonStorage->find(['email' => $email])) {
             return json_encode([
                 'result' => false,
@@ -48,8 +48,15 @@ class StorageService
                 'message' => "Wrong Password",
             ]);
         }
+    }
 
-
+    public function validateUser($email, $password)
+    {
+        $user = $this->jsonStorage->find(['email' => $email]);
+        if ($user && \Yii::$app->getSecurity()->validatePassword($password, $user['password_hash']) && ($user['status'] == 'verified')) {
+            return true;
+        }
+        return false;
     }
 
 

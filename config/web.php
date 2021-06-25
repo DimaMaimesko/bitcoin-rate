@@ -58,12 +58,15 @@ $config = [
         'db' => $db,
 
         'urlManager' => [
+            //'class' => 'app\base\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => true,
+            'suffix' => '/',
             'rules' => [
-                'POST user/create/<email:\w+>/<password:\w+>' => 'user/create',
-                'POST user/login/<email:\w+>/<password:\w+>' => 'user/login',
-                'GET btcRate/<email:\w+>/<password:\w+>' => 'bitcoin/get-rate',
+                'POST user/create' => 'user/create',
+                'POST user/login' => 'user/login',
+                'GET btcRate' => 'bitcoin/get-rate',
             ],
         ],
 
